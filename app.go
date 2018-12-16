@@ -104,6 +104,8 @@ func ProcessMessage(event Messaging) {
 	defer resp.Body.Close()
 }
 func MessagesEndpoint(w http.ResponseWriter, r *http.Request) {
+	fmt.Println(" called cb obj")
+
 	var callback Callback
 	json.NewDecoder(r.Body).Decode(&callback)
 	fmt.Println(callback.Object," cb obj")
