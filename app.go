@@ -64,6 +64,7 @@ func VerificationEndpoint(w http.ResponseWriter, r *http.Request) {
 	challenge := r.URL.Query().Get("hub.challenge")
 	token := r.URL.Query().Get("VERIFY_TOKEN")
 
+
 	if token == os.Getenv("VERIFY_TOKEN") {
 		w.WriteHeader(200)
 		w.Write([]byte(challenge))
@@ -105,6 +106,7 @@ func ProcessMessage(event Messaging) {
 func MessagesEndpoint(w http.ResponseWriter, r *http.Request) {
 	var callback Callback
 	json.NewDecoder(r.Body).Decode(&callback)
+	fmt.Println(callback.Object," cb obj")
 	if callback.Object == "page" {
 		for _, entry := range callback.Entry {
 			for _, event := range entry.Messaging {
