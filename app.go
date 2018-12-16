@@ -61,11 +61,12 @@ type Payload struct {
 }
 
 func VerificationEndpoint(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("hello there ")
 	challenge := r.URL.Query().Get("hub.challenge")
 	mode := r.URL.Query().Get("hub.mode")
 	token := r.URL.Query().Get("hub.verify_token")
-	log.Println(os.Getenv("VERIFY_TOKEN"))
-	log.Println(" it is token: ",token,"here")
+	fmt.Println(os.Getenv("VERIFY_TOKEN"))
+	fmt.Println(" it is token: ",token,"here")
 	if mode != "" && token == os.Getenv("VERIFY_TOKEN") {
 		w.WriteHeader(200)
 		w.Write([]byte(challenge))
