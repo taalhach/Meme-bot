@@ -64,13 +64,13 @@ func VerificationEndpoint(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("hello there ")
 	challenge := r.URL.Query().Get("hub.challenge")
 	mode := r.URL.Query().Get("hub.mode")
-	token := r.URL.Query().Get("hub.verify_token")
+	token := r.URL.Query().Get("VERIFY_TOKEN")
 
 	fmt.Println(os.Getenv("VERIFY_TOKEN"))
 	fmt.Println("query: ",r.URL.Query())
 	fmt.Println("url: ",r.URL)
 
-	fmt.Println(" it is token: ",token,"here")
+	fmt.Println(" it is token: ",token,"here"," mode ",mode," -")
 	if mode != "" && token == os.Getenv("VERIFY_TOKEN") {
 		w.WriteHeader(200)
 		w.Write([]byte(challenge))
