@@ -69,6 +69,7 @@ func VerificationEndpoint(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(200)
 		w.Write([]byte(challenge))
 	} else {
+		log.Println(os.Getenv("VERIFY_TOKEN"),token)
 		w.WriteHeader(404)
 		w.Write([]byte("Error, wrong validation token"))
 	}
