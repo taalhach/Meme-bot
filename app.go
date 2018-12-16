@@ -64,7 +64,6 @@ func VerificationEndpoint(w http.ResponseWriter, r *http.Request) {
 	challenge := r.URL.Query().Get("hub.challenge")
 	mode := r.URL.Query().Get("hub.mode")
 	token := r.URL.Query().Get("hub.verify_token")
-
 	log.Println(os.Getenv("VERIFY_TOKEN"))
 	log.Println(" it is token: ",token,"here")
 	if mode != "" && token == os.Getenv("VERIFY_TOKEN") {
