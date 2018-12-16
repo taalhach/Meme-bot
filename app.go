@@ -63,8 +63,7 @@ type Payload struct {
 func VerificationEndpoint(w http.ResponseWriter, r *http.Request) {
 	challenge := r.URL.Query().Get("hub.challenge")
 	token := r.URL.Query().Get("VERIFY_TOKEN")
-
-
+	fmt.Println("query===> ",r.URL.Query())
 	if token == os.Getenv("VERIFY_TOKEN") {
 		w.WriteHeader(200)
 		w.Write([]byte(challenge))
