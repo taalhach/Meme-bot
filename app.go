@@ -62,17 +62,9 @@ type Payload struct {
 
 func VerificationEndpoint(w http.ResponseWriter, r *http.Request) {
 	challenge := r.URL.Query().Get("hub.challenge")
-	fmt.Println(" challenge: ",challenge)
-	mode := r.URL.Query().Get("hub.mode")
-	fmt.Println(" mode: ",mode)
 	token := r.URL.Query().Get("hub.verify_token")
 
-	fmt.Println(os.Getenv("VERIFY_TOKEN"))
-	fmt.Println("query: ",r.URL.Query())
-	fmt.Println("url: ",r.URL)
-
-	fmt.Println(" it is token: ",token,"here"," mode ",mode," -")
-	if mode != "" && token == os.Getenv("VERIFY_TOKEN") {
+	if token == os.Getenv("VERIFY_TOKEN") {
 		w.WriteHeader(200)
 		w.Write([]byte(challenge))
 	} else {
@@ -80,7 +72,6 @@ func VerificationEndpoint(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Error, wrong validation token"))
 	}
 }
-
 func ProcessMessage(event Messaging) {
 	client := &http.Client{}
 	response := Response{
@@ -89,11 +80,11 @@ func ProcessMessage(event Messaging) {
 		},
 		Message: Message{
 			Attachment: &Attachment{
-				Type: "image",
-				Payload: Payload{
-					URL: IMAGE,
-				},
-			},
+			Type: "image",
+			Payload: Payload{
+			URL: IMAGE,
+		},
+		},
 		},
 	}
 	body := new(bytes.Buffer)
@@ -111,7 +102,6 @@ func ProcessMessage(event Messaging) {
 	}
 	defer resp.Body.Close()
 }
-
 func MessagesEndpoint(w http.ResponseWriter, r *http.Request) {
 	var callback Callback
 	json.NewDecoder(r.Body).Decode(&callback)
