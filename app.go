@@ -1,19 +1,15 @@
 package main
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
-	"os"
-	"encoding/json"
-	"bytes"
 )
-
-func HomeEndpoint(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Hello from mlabouardy :)")
-}
 
 const (
 	FACEBOOK_API = "https://graph.facebook.com/v2.6/me/messages?access_token=%s"
@@ -128,8 +124,6 @@ func MessagesEndpoint(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	r := mux.NewRouter()
-	r.HandleFunc("/", HomeEndpoint)
-
 	r.HandleFunc("/webhook", VerificationEndpoint).Methods("GET")
 	r.HandleFunc("/webhook", MessagesEndpoint).Methods("POST")
 	if err := http.ListenAndServe(":8080", r); err != nil {
